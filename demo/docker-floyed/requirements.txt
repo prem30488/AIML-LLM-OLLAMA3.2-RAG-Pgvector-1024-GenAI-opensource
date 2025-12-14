@@ -1,0 +1,9 @@
+invisible_watermark
+transformers
+accelerate
+safetensors
+diffusers
+huggingface_hub
+Pillow
+flask
+sentencepiece

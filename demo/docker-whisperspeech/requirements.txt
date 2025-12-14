@@ -1,0 +1,6 @@
+flask
+whisperspeech==0.8.9
+numpy
+soundfile
+webdataset
+torchcodec

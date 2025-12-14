@@ -1,0 +1,10 @@
+services:
+  whisperspeech-tts:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: whisperspeech-tts
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app"

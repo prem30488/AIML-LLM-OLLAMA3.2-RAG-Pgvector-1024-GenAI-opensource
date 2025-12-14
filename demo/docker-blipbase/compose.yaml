@@ -1,0 +1,10 @@
+services:
+  blip-itt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: blip-itt
+    ports:
+      - "8002:8002"
+    volumes:
+      - .:/app

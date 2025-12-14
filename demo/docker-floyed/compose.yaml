@@ -1,0 +1,10 @@
+services:
+  floyed-tti:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: floyed-tti
+    ports:
+      - "8001:8001"
+    volumes:
+      - .:/app
