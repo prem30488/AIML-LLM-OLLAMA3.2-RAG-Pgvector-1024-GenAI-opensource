@@ -1,0 +1,10 @@
+services:
+  sentiment:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sentiment
+    ports:
+      - "8004:8004"
+    volumes:
+      - .:/app
