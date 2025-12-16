@@ -19,3 +19,6 @@ https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensour
 
 4. https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/tts%20using%20my%20custom%20docker%20image.mp4
 
+### Sentiment Analysis
+
+https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/sentiment%20analysis.mp4
