@@ -21,4 +21,8 @@ https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensour
 
 ### Sentiment Analysis
 
+1. using prompt llama3.2 
 https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/sentiment%20analysis.mp4
+
+2. using my own model made in python 
+https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/sentiment%20using%20my%20own%20custom%20code.mp4
