@@ -1,0 +1,10 @@
+services:
+  yolo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: yolo
+    ports:
+      - "8003:8003"
+    volumes:
+      - .:/app

@@ -6,6 +6,13 @@ services:
     container_name: whisperspeech-tts
     ports:
       - "8000:8000"
+  yolo:
+    build:
+      context: ./docker-yolo
+      dockerfile: Dockerfile
+    container_name: yolo	      
+    ports:
+      - "8003:8003"	    
   blip-itt:
     build:
       context: ./docker-blipbase
