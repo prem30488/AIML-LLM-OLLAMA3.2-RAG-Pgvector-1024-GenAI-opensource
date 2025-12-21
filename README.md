@@ -24,10 +24,6 @@ https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensour
 1. using prompt llama3.2 
 https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/sentiment%20analysis.mp4
 
-### Image Classification using custom CNN - neural network for learning
-
- https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/Image%20Classification%20using%20custom%20CNN.mp4
-
 3. using my own model made in python 
 https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/sentiment%20using%20my%20own%20custom%20code.mp4
 
@@ -35,3 +31,9 @@ https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensour
 ### CNN - Object Detection
 
 1. YOLO - https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/object%20detection%20image%20detection.mp4
+
+
+
+### Image Classification using custom CNN - neural network for learning
+
+ https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/Image%20Classification%20using%20custom%20CNN.mp4
