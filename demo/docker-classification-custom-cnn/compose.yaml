@@ -1,0 +1,11 @@
+services:
+  classification-custom-cnn:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: classification-custom-cnn
+    ports:
+      - "8005:8005"
+    volumes:
+      - .:/app
+    mem_limit: 12g

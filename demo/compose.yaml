@@ -34,6 +34,14 @@ services:
     container_name: sentiment
     ports:
       - "8004:8004"
+  classification-custom-cnn:
+    build:
+      context: ./docker-classification-custom-cnn
+      dockerfile: Dockerfile
+    container_name: classification-custom-cnn
+    ports:
+      - "8005:8005"
+    mem_limit: 12g
   pgvector:
     image: 'pgvector/pgvector:pg16'
     environment:

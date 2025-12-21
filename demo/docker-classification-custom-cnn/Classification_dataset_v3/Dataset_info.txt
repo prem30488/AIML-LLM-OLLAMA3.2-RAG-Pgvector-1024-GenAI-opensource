@@ -1,0 +1,5 @@
+This dataset has been created from the below 2 sources : 
+
+https://www.kaggle.com/datasets/karakaggle/kaggle-cat-vs-dog-dataset?resource=download
+
+https://www.kaggle.com/datasets/snmahsa/human-images-dataset-men-and-women
