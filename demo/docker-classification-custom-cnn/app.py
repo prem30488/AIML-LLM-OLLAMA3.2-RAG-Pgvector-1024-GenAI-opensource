@@ -10,38 +10,46 @@ import torch.nn as nn
 import torch.optim as optim
 import io
 
-print("resizing and normalizing images...")
+class ImageDataset(Dataset):
+  def __init__(self, image_dir, transform=None):
+    self.image_dir = image_dir
+    self.image_paths = []
+    self.labels = []
+    self.class_name = {}
+    self.transform = transform
+
+    for label, class_dir in enumerate(os.listdir(image_dir)):
+      self.class_name[label] = class_dir
+      class_path = os.path.join(image_dir, class_dir)
+      for img_name in os.listdir(class_path):
+        self.image_paths.append(os.path.join(class_path, img_name))
+        self.labels.append(label)
+
+  def __len__(self):
+    return len(self.image_paths)
+
+  def __getitem__(self, idx):
+    img_path = self.image_paths[idx]
+    image = Image.open(img_path).convert("RGB")
+    label = self.labels[idx]
+
+    if self.transform:
+      image = self.transform(image)
+
+    return image, label
+
+
+image_dir = '/app/Classification_dataset_v3/images/train'
+for label, class_dir in enumerate(os.listdir(image_dir)):
+  print(label, class_dir)
+
 transform = transforms.Compose([
     transforms.Resize((128,128)),
     transforms.ToTensor(),
     transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])]
 )
-class ImageDataset(Dataset):
-    def __init__(self, image_dir, transform=None):
-        self.image_dir = image_dir
-        self.image_paths = []
-        self.labels = []
-        self.class_name = {}
-        self.transform = transform
-        for label, class_dir in enumerate(os.listdir(image_dir)):
-            self.class_name[label] = class_dir
-            class_path = os.path.join(image_dir, class_dir)
-        for img_name in os.listdir(class_path):
-            self.image_paths.append(os.path.join(class_path, img_name))
-            self.labels.append(label)	
-    def __len__(self):
-            return len(self.image_paths)
-    def __getitem__(self, idx):
-        img_path = self.image_paths[idx]
-        image = Image.open(img_path).convert("RGB")
-        label = self.labels[idx]
-        if self.transform:
-            image = self.transform(image)
-        return image, label
+# mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
 
-
-
-file_path = Path("/app/cnn_model.pth")
 train_image_dir = '/app/Classification_dataset_v3/images/train'
 test_image_dir = '/app/Classification_dataset_v3/images/test'
 
@@ -50,106 +58,97 @@ test_image_dataset = ImageDataset(image_dir=test_image_dir, transform=transform)
 
 train_image_loader = DataLoader(dataset=train_image_dataset, batch_size=32, shuffle=True)
 test_image_loader = DataLoader(dataset=test_image_dataset, batch_size=32, shuffle=True)
+
+for images,labels in train_image_loader:
+  print(images.shape, labels.shape)
+  break
+  
+
 class CustomCnnModel(nn.Module):
-    def __init__(self,input_dim, num_classes):
-        super(CustomCnnModel, self).__init__()
-        self.input_dim = input_dim
-        self.num_classes = num_classes
+  def __init__(self,input_dim, num_classes):
+    super(CustomCnnModel, self).__init__()
+    self.input_dim = input_dim
+    self.num_classes = num_classes
 
-        self.conv_layers = nn.Sequential(
-            # C1
-            nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1),
-            # 128x128x3 --> 3x3x3x32 --> wxhx32
-            nn.BatchNorm2d(32),
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2),
+    self.conv_layers = nn.Sequential(
+        # C1
+        nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1),
+        # 128x128x3 --> 3x3x3x32 --> wxhx32
+        nn.BatchNorm2d(32),
+        nn.ReLU(),
+        nn.MaxPool2d(kernel_size=2, stride=2),
 
-            # C2
-            nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1),
-            nn.BatchNorm2d(64),
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2),
+        # C2
+        nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1),
+        nn.BatchNorm2d(64),
+        nn.ReLU(),
+        nn.MaxPool2d(kernel_size=2, stride=2),
 
-            # C3
-            nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1),
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2),
+        # C3
+        nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1),
+        nn.BatchNorm2d(128),
+        nn.ReLU(),
+        nn.MaxPool2d(kernel_size=2, stride=2),
 
-            # C4
-            nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1),
-            nn.BatchNorm2d(256),
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2)
-        )
+        # C4
+        nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1),
+        nn.BatchNorm2d(256),
+        nn.ReLU(),
+        nn.MaxPool2d(kernel_size=2, stride=2)
+    )
 
-        self._to_linear = None
-        self._get_conv_output(self.input_dim)
+    self._to_linear = None
+    self._get_conv_output(self.input_dim)
 
-        self.fc_layers = nn.Sequential(
-            nn.Linear(self._to_linear, 512),
-            nn.ReLU(),
-            # nn.Dropout(0.2)
-            nn.Linear(512, 128),
-            nn.ReLU(),
-            nn.Linear(128, self.num_classes),
-        )
+    self.fc_layers = nn.Sequential(
+        nn.Linear(self._to_linear, 512),
+        nn.ReLU(),
+        # nn.Dropout(0.2)
+        nn.Linear(512, 128),
+        nn.ReLU(),
+        nn.Linear(128, self.num_classes),
+    )
 
-        # 256 x 12 x 12
+    # 256 x 12 x 12
 
-    def _get_conv_output(self, input_dim=128):
-        with torch.no_grad():
-            dummy_input = torch.zeros(1,3, input_dim, input_dim)
-            output = self.conv_layers(dummy_input)
-            self._to_linear = output.view(1, -1).size(1)
-    def forward(self,x):
-        x = self.conv_layers(x)
-        x = x.view(x.size(0), -1)
-        x = self.fc_layers(x)
-        return x
-    
-if file_path.exists():
-    print("CNN File exists")
-    device = torch.device('cpu')
-    model = CustomCnnModel(input_dim=128, num_classes=3).to(device)
-else:
-    print("Started reading images...")
-    image_dir = '/app/Classification_dataset_v3/images/train'
-    for label, class_dir in enumerate(os.listdir(image_dir)):
-      print(label, class_dir)
-    for images,labels in train_image_loader:
-        print(images.shape, labels.shape)
-        break
-	
-    print(train_image_dataset.class_name)
-    print(test_image_dataset.class_name)
-	
-        
-    # Initialize Model
-    device = torch.device('cpu')
-    model = CustomCnnModel(input_dim=128, num_classes=3).to(device)
-    print("model for images...")
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(),lr=0.001)
-    
-    print("Started training cnn")
-    # Training loop
-    epochs = 40
-    for epoch in range(epochs):
-        model.train()
-        running_loss = 0.0
-        for images, labels in train_image_loader:
-            images,labels = images.to(device), labels.to(device)
-            optimizer.zero_grad()
-            outputs = model(images)    
-            loss = criterion(outputs, labels)
-            loss.backward()
-            optimizer.step()
-            running_loss+=loss.item()
-        print(f"Epoch {epoch+1}/{epochs}, Loss : {running_loss/len(train_image_loader)}")
-	
-    torch.save(model.state_dict(), "cnn_model.pth")
+  def _get_conv_output(self, input_dim=128):
+    with torch.no_grad():
+      dummy_input = torch.zeros(1,3, input_dim, input_dim)
+      output = self.conv_layers(dummy_input)
+      self._to_linear = output.view(1, -1).size(1)
 
+  def forward(self,x):
+    x = self.conv_layers(x)
+    x = x.view(x.size(0), -1)
+    x = self.fc_layers(x)
+    return x
+
+
+# Initialize Model
+device = torch.device('cpu')
+model = CustomCnnModel(input_dim=128, num_classes=3).to(device)
+
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(),lr=0.001)
+
+# Training loop
+epochs = 40
+for epoch in range(epochs):
+  model.train()
+  running_loss = 0.0
+  for images, labels in train_image_loader:
+    images,labels = images.to(device), labels.to(device)
+    optimizer.zero_grad()
+    outputs = model(images)
+    # [x, 3, 128, 128]
+
+    loss = criterion(outputs, labels)
+    loss.backward()
+    optimizer.step()
+    running_loss+=loss.item()
+  print(f"Epoch {epoch+1}/{epochs}, Loss : {running_loss/len(train_image_loader)}")
+
+torch.save(model.state_dict(), "cnn_model.pth")
 
 # Evaluate model
 
