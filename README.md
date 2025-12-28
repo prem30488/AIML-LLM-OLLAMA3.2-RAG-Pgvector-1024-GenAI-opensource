@@ -36,4 +36,23 @@ https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensour
 
 ### Image Classification using custom CNN - neural network for learning
 
- https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/Image%20Classification%20using%20custom%20CNN.mp4
+1. part 1 https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/Image%20Classification%20using%20custom%20CNN.mp4
+
+
+2. part 2 https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/Image%20Classification%20using%20custom%20CNN%20part%202.mp4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
