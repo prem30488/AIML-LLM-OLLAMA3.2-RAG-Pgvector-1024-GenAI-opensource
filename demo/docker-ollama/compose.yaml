@@ -1,0 +1,10 @@
+services:
+  whisperspeech-tts:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - .:/app"

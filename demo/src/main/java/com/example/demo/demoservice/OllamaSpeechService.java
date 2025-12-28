@@ -1,16 +1,8 @@
 package com.example.demo.demoservice;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.UUID;
 import java.util.function.Consumer;
 
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,9 +22,7 @@ import reactor.core.publisher.Mono;
 @Service
 public class OllamaSpeechService {
 	
-	private static final String WHISPER_DIR = "D:/whisper/";
-    private static final String WHISPER_EXE = "whisper.exe";
-
+	private final RestTemplate restTemplate = new RestTemplate();
 	
 	public class MultipartBodyBuilderHelper {
 	    public static Mono<MultiValueMap<String, HttpEntity<?>>> build(
@@ -50,56 +41,31 @@ public class OllamaSpeechService {
                 .build();
     }
 
-    public String transcribe(MultipartFile multipartFile) throws Exception {
+    public String transcribe(MultipartFile audio) throws Exception {
 
-        // Ensure folder exists
-        Files.createDirectories(Paths.get(WHISPER_DIR));
-
-        // Generate unique name
-        String uniqueName = UUID.randomUUID().toString().replace("-", "");
-        String mp3Path = WHISPER_DIR + uniqueName + ".mp3";
-        String txtPath = WHISPER_DIR + uniqueName + ".txt";
-
-        // Save MP3 file
-        Path filePath = Paths.get(mp3Path);
-        Files.copy(multipartFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        // Build command: whisper.exe "D:/whisper/xxxx.mp3"
-        ProcessBuilder pb = new ProcessBuilder(
-                WHISPER_EXE,
-                filePath.toString()
-        );
-
-        pb.directory(new File(WHISPER_DIR));
-        pb.redirectErrorStream(true);
-
-        Process process = pb.start();
-
-        // Read console output (optional but useful)
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(process.getInputStream()))) {
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println("[WHISPER] " + line);
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("audio", new ByteArrayResource(audio.getBytes()) {
+            @Override
+            public String getFilename() {
+                return audio.getOriginalFilename();
             }
-        }
+        });
 
-        // Wait for whisper.exe to complete
-        int exitCode = process.waitFor();
-        if (exitCode != 0) {
-            throw new RuntimeException("Whisper failed with exit code " + exitCode);
-        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-        // Now read generated TXT file
-        Path txtFilePath = Paths.get(txtPath);
-        if (!Files.exists(txtFilePath)) {
-            throw new FileNotFoundException("Output text file not found: " + txtPath);
-        }
+        HttpEntity<MultiValueMap<String, Object>> request =
+                new HttpEntity<>(body, headers);
 
-        return Files.readString(txtFilePath);
-    }	
-    
+        ResponseEntity<String> response =
+                restTemplate.postForEntity(
+                        "http://localhost:8006/transcribe",
+                        request,
+                        String.class
+                );
+
+        return response.getBody();
+    }
 
     // ... inside your service or controller
 

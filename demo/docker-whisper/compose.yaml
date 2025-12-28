@@ -1,0 +1,10 @@
+services:
+  whisper:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: whisper
+    ports:
+      - "8006:8006"
+    volumes:
+      - .:/app"

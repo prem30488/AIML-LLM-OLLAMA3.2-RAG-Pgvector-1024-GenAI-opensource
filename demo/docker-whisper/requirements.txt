@@ -1,0 +1,10 @@
+flask
+whisper
+numpy
+soundfile
+webdataset
+torchcodec
+faster-whisper
+fastapi
+uvicorn
+python-multipart
