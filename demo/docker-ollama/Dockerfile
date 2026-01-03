@@ -9,6 +9,7 @@ sleep 5\n\
 echo \"Pulling models...\"\n\
 ollama pull llama3.2:latest\n\
 ollama pull mxbai-embed-large\n\
+ollama pull nomic-embed-text\n\
 wait" > entrypoint.sh
 
 RUN chmod +x entrypoint.sh

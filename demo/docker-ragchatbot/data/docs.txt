@@ -1,0 +1,5 @@
+RAG stands for Retrieval Augmented Generation.
+Ollama allows running large language models locally.
+FAISS is a fast vector similarity search library.
+LangChain helps build LLM-powered applications.
+Conversational RAG remembers previous questions.

@@ -10,6 +10,8 @@ import torch.nn as nn
 import torch.optim as optim
 import io
 
+MODEL_PATH = "cnn_model.pth"
+
 class ImageDataset(Dataset):
   def __init__(self, image_dir, transform=None):
     self.image_dir = image_dir
@@ -56,8 +58,8 @@ test_image_dir = '/app/Classification_dataset_v3/images/test'
 train_image_dataset = ImageDataset(image_dir=train_image_dir, transform=transform)
 test_image_dataset = ImageDataset(image_dir=test_image_dir, transform=transform)
 
-train_image_loader = DataLoader(dataset=train_image_dataset, batch_size=32, shuffle=True)
-test_image_loader = DataLoader(dataset=test_image_dataset, batch_size=32, shuffle=True)
+train_image_loader = DataLoader(dataset=train_image_dataset, batch_size=32, shuffle=True,persistent_workers=False,num_workers=0,pin_memory=False)
+test_image_loader = DataLoader(dataset=test_image_dataset, batch_size=32, shuffle=True,persistent_workers=False,num_workers=0,pin_memory=False)
 
 for images,labels in train_image_loader:
   print(images.shape, labels.shape)
@@ -126,29 +128,37 @@ class CustomCnnModel(nn.Module):
 
 # Initialize Model
 device = torch.device('cpu')
+torch.set_num_threads(10)
 model = CustomCnnModel(input_dim=128, num_classes=3).to(device)
+if os.path.exists(MODEL_PATH):
+    print("Model found. Loading...", flush=True)
+    model.load_state_dict(
+        torch.load(MODEL_PATH, map_location=device)
+    )
+else:
 
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(),lr=0.001)
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(model.parameters(),lr=0.001)
 
-# Training loop
-epochs = 40
-for epoch in range(epochs):
-  model.train()
-  running_loss = 0.0
-  for images, labels in train_image_loader:
-    images,labels = images.to(device), labels.to(device)
-    optimizer.zero_grad()
-    outputs = model(images)
-    # [x, 3, 128, 128]
+    # Training loop
+    epochs = 40
 
-    loss = criterion(outputs, labels)
-    loss.backward()
-    optimizer.step()
-    running_loss+=loss.item()
-  print(f"Epoch {epoch+1}/{epochs}, Loss : {running_loss/len(train_image_loader)}")
+    for epoch in range(epochs):
+      model.train()
+      running_loss = 0.0
+      for images, labels in train_image_loader:
+        images,labels = images.to(device), labels.to(device)
+        optimizer.zero_grad()
+        outputs = model(images)
+        # [x, 3, 128, 128]
 
-torch.save(model.state_dict(), "cnn_model.pth")
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()
+        running_loss+=loss.item()
+      print(f"Epoch {epoch+1}/{epochs}, Loss : {running_loss/len(train_image_loader)}")
+
+    torch.save(model.state_dict(), MODEL_PATH)
 
 # Evaluate model
 

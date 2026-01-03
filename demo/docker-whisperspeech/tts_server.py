@@ -4,14 +4,11 @@ import io
 from flask import Flask, request, send_file, jsonify, Response
 from whisperspeech.pipeline import Pipeline
 
-
-app = Flask(__name__)
-
 pipe = Pipeline(
     s2a_ref="collabora/whisperspeech:s2a-q4-tiny-en+pl.model",
     torch_compile=False
 )
-
+app = Flask(__name__)
 @app.route("/tts", methods=["POST"])
 def tts():
     data = request.get_json()

@@ -56,6 +56,13 @@ services:
     container_name: whisper
     ports:
       - "8006:8006"
+  ragchatbot:
+    build:
+      context: ./docker-ragchatbot
+      dockerfile: Dockerfile
+    container_name: ragchatbot
+    ports:
+      - "8007:8007"
   pgvector:
     image: 'pgvector/pgvector:pg16'
     environment:

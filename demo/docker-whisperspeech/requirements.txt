@@ -4,3 +4,4 @@ numpy
 soundfile
 webdataset
 torchcodec
+ipython

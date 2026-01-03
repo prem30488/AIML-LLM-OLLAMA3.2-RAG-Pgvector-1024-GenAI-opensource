@@ -40,4 +40,4 @@ COPY . .
 #ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/:/usr/local/lib/:$LD_LIBRARY_PATH
 EXPOSE 8000
 # Run Flask app
-CMD ["python", "tts_server.py"]
+CMD ["python", "-u", "tts_server.py"]

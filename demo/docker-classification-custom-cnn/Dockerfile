@@ -47,4 +47,4 @@ COPY . .
 
 # STEP 5: Container Execution
 EXPOSE 8005
-CMD ["python", "app.py"]
+CMD ["python", "-u" , "app.py"]
