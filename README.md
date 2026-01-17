@@ -9,6 +9,8 @@ Short walkthrough of the application.
 1. 
 https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/RAG.mp4
 
+2. RAG based chatbot that remembers previous questions -> https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/RAG%20based%20chatbot.mp4
+
 ### GEN AI
  
 1. https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/itt%20using%20custom%20docker%20image.mp4
