@@ -6,63 +6,13 @@ services:
     container_name: ollama
     ports:
       - "11434:11434"
-  whisperspeech-tts:
+  websearch:
     build:
-      context: ./docker-whisperspeech
-      dockerfile: Dockerfile
-    container_name: whisperspeech-tts
+       context: ./docker-agentic-web-search
+       dockerfile: Dockerfile
+    container_name: websearch
     ports:
-      - "8000:8000"
-  yolo:
-    build:
-      context: ./docker-yolo
-      dockerfile: Dockerfile
-    container_name: yolo	      
-    ports:
-      - "8003:8003"	    
-  blip-itt:
-    build:
-      context: ./docker-blipbase
-      dockerfile: Dockerfile
-    container_name: blip-itt
-    ports:
-      - "8002:8002"
-  floyed-tti:
-    build:
-      context: ./docker-floyed
-      dockerfile: Dockerfile
-    container_name: floyed-tti
-    ports:
-      - "8001:8001"
-  sentiment:
-    build:
-      context: ./docker-sentiment
-      dockerfile: Dockerfile
-    container_name: sentiment
-    ports:
-      - "8004:8004"
-  classification-custom-cnn:
-    build:
-      context: ./docker-classification-custom-cnn
-      dockerfile: Dockerfile
-    container_name: classification-custom-cnn
-    ports:
-      - "8005:8005"
-    mem_limit: 12g
-  whisper:
-    build:
-      context: ./docker-whisper
-      dockerfile: Dockerfile
-    container_name: whisper
-    ports:
-      - "8006:8006"
-  ragchatbot:
-    build:
-      context: ./docker-ragchatbot
-      dockerfile: Dockerfile
-    container_name: ragchatbot
-    ports:
-      - "8007:8007"
+       - "8008:8008"
   pgvector:
     image: 'pgvector/pgvector:pg16'
     environment:

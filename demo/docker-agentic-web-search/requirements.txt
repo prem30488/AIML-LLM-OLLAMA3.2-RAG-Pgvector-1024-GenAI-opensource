@@ -1,0 +1,14 @@
+flask
+sqlalchemy
+psycopg2-binary
+pgvector
+requests
+beautifulsoup4
+phi
+ollama
+ddgs
+phidata
+duckduckgo-search
+yfinance
+pandas
+numpy

@@ -55,7 +55,7 @@ public class PGVectorLoader {
             	    true
             	);
 
-            vectorStore.accept(textSplitter.apply(reader.get()));
+            //vectorStore.accept(textSplitter.apply(reader.get()));
 
             System.out.println("Application is Started and Ready to Serve");
         }

@@ -32,3 +32,15 @@ CREATE TABLE IF NOT EXISTS sentiment_feedback (
 );
 
 CREATE INDEX ON vector_store USING HNSW (embedding vector_cosine_ops);
+
+DROP TABLE IF EXISTS web_search_documents;
+
+CREATE TABLE IF NOT EXISTS web_search_documents (
+    id SERIAL PRIMARY KEY,
+    content TEXT,
+    embedding VECTOR(768),
+    topic TEXT,
+    url TEXT,
+    published_at TIMESTAMP,
+    sentiment FLOAT
+);

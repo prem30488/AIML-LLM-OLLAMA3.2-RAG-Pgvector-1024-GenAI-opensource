@@ -1,0 +1,15 @@
+services:
+  websearch:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: websearch
+    ports:
+      - "8008:8008"
+    depends_on:
+      - ollama
+	  - pgvector
+    volumes:
+      - .:/app"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
