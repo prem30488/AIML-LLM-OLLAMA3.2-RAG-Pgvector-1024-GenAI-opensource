@@ -44,9 +44,12 @@ https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensour
 2. part 2 https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/Image%20Classification%20using%20custom%20CNN%20part%202.mp4
 
 
+### News Based stock prediction
 
+1. Part 1 -> https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/NEWS%20BASED%20STOCK%20PREDICTION%20PART%201.mp4
 
-
+   
+3. Part 2 -> https://github.com/prem30488/AIML-LLM-OLLAMA3.2-RAG-Pgvector-1024-GenAI-opensource/blob/main/assets/NEWS%20BASED%20STOCK%20PREDICTION%20PART%202.mp4
 
 
 
